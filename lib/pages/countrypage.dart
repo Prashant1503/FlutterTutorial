@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:todo/pages/country.dart';
 import 'package:todo/pages/particularCountry.dart';
 
 class CountryPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _CountryPageState extends State<CountryPage> {
   Widget customSearchBar = Text('Country Stats');
   Icon customIcon = Icon(Icons.search);
 
-    List _countryData;
+     List _countryData;
 
     getCoutryData() => _countryData;
 
@@ -40,6 +41,8 @@ class _CountryPageState extends State<CountryPage> {
     // TODO: implement initState
     super.initState();
     fetchCountryData();
+
+
   }
 
   @override
@@ -112,9 +115,46 @@ class _CountryPageState extends State<CountryPage> {
 
 }
 
+class DataFetch extends StatefulWidget {
+  @override
+  _DataFetchState createState() => _DataFetchState();
+}
+
+class _DataFetchState extends State<DataFetch> {
+
+  @override
+  Widget build(BuildContext context) {
+
+    List _data;
+
+    initState();
+
+    fetchData() async {
+      http.Response response = await http.get(
+          'https://corona.lmao.ninja/v2/countries');
+
+      setState(() {
+        _data = json.decode(response.body);
+        print(_data);
+
+
+      });
+
+
+    return Container();
+  }
+}
+
+
+
+}
+
+
 class DataSearch extends SearchDelegate<String> {
 
   final countryUrl = 'https://corona.lmao.ninja/v2/countries';
+
+
 
   final countries = [
 
@@ -167,6 +207,7 @@ class DataSearch extends SearchDelegate<String> {
 
   }
 
+
   @override
   List<Widget> buildActions(BuildContext context) {
 
@@ -194,30 +235,13 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
 
+    List _countryData;
+
+
+
 
 
 
   }
 
 }
-
-class FilterSearchItem extends StatefulWidget {
-  @override
-  _FilterSearchItemState createState() => _FilterSearchItemState();
-}
-
-class _FilterSearchItemState extends State<FilterSearchItem> {
-
-  List data = [];
-
-
-//  _FilterSearchItemState(this.data);
-
-  void getD() => data;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
